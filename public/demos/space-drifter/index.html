@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Space Drifter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app">
+    <canvas id="game-canvas"></canvas>
+    <div class="screen-fx">
+      <div class="space-haze"></div>
+      <div class="scanlines"></div>
+      <div class="damage-flash" id="damage-flash"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <div class="hud">
+      <div class="hud-health">
+        <div class="hud-panel health-hud-panel">
+          <div class="health-header">
+            <span class="hud-kicker">HULL</span>
+            <span class="hud-kicker">SHIELD</span>
+          </div>
+          <div class="health-track health-main-track">
+            <div class="health-meter segmented">
+              <div class="health-fill" id="health-fill"></div>
+              <div class="health-glow"></div>
+            </div>
+          </div>
+          <div class="health-track shield-track">
+            <div class="shield-fill" id="shield-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud-center">
+        <div class="hud-panel score-hud-panel">
+          <div class="score-block primary-score-block">
+            <span class="caption">SCORE</span>
+            <span class="value" id="score">4</span>
+          </div>
+          <div class="score-divider"></div>
+          <div class="score-block combo-score-block">
+            <span class="caption">COMBO</span>
+            <span class="value" id="combo-state">x0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <div class="hud-panel wave-hud-panel">
+          <div class="score-block">
+            <span class="caption">WAVE</span>
+            <span class="value" id="level-label">LEVEL 1</span>
+          </div>
+          <div class="score-divider"></div>
+          <div class="score-block">
+            <span class="caption">TIME</span>
+            <span class="value timer-display" id="timer">1:50</span>
+          </div>
+          <div class="wave-subline" id="level-objective">0 / 8</div>
+        </div>
+        <div class="top-actions compact-top-actions">
+          <button class="icon-button pause-icon-button" id="pause-button" aria-label="Pause game">
+            <span class="pause-icon">
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="hud-panel ability-panel">
+          <div class="ability-header">
+            <span class="caption">SPECIAL</span>
+            <span class="ability-meta" id="weapon-state">PULSE</span>
+          </div>
+          <div class="ability-meter">
+            <div class="ability-fill" id="ability-fill"></div>
+          </div>
+          <div class="weapon-charge-track">
+            <div class="weapon-charge-fill" id="charge-fill"></div>
+          </div>
+          <div class="ability-footer">
+            <span id="power-state">LV 1</span>
+            <span class="power-timer" id="power-timer">READY</span>
+            <span class="ability-best">BEST <strong id="best-score">42</strong></span>
+          </div>
+        </div>
+
+        <div class="hud-panel radar-panel">
+          <div class="ability-header">
+            <span class="caption">RADAR</span>
+            <span class="ability-meta">SCAN</span>
+          </div>
+          <div class="radar-circle">
+            <div class="radar-ring ring-a"></div>
+            <div class="radar-ring ring-b"></div>
+            <div class="radar-sweep"></div>
+            <div class="radar-center-dot"></div>
+            <div class="radar-blips" id="radar-blips"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud-corner-actions">
+        <div class="top-actions">
+          <button class="icon-button" id="settings-button" aria-label="Open settings">
+            <span class="gear-icon">
+              <span class="gear-core"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-controls" id="mobile-controls">
+      <div class="joystick-shell" id="joystick-shell">
+        <div class="joystick-ring"></div>
+        <div class="joystick-glyph">
+          <span class="arrow up"></span>
+          <span class="arrow right"></span>
+          <span class="arrow down"></span>
+          <span class="arrow left"></span>
+          <span class="glyph-center"></span>
+        </div>
+        <div class="joystick-knob" id="joystick-knob"></div>
+      </div>
+      <button class="fire-button" id="fire-button" aria-label="Fire weapon">
+        <span class="crosshair">
+          <span class="ring outer"></span>
+          <span class="ring inner"></span>
+          <span class="line v"></span>
+          <span class="line h"></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <div class="wave-announcement" id="wave-announcement">WAVE 1</div>
+    <div class="danger-warning" id="danger-warning">DANGER</div>
+
+    <div class="overlay menu-overlay" id="menu-overlay">
+      <div class="menu-screen">
+        <div class="menu-bg-grid"></div>
+        <div class="menu-rift-glow"></div>
+        <div class="menu-side-rail left"></div>
+        <div class="menu-side-rail right"></div>
+        <div class="menu-ship-silhouette">
+          <div class="silhouette-body"></div>
+          <div class="silhouette-wing left"></div>
+          <div class="silhouette-wing right"></div>
+          <div class="silhouette-engine left"></div>
+          <div class="silhouette-engine center"></div>
+          <div class="silhouette-engine right"></div>
+        </div>
+
+        <div class="menu-topbar">
+          <div class="menu-panel best-panel">
+            <span class="chip-label">BEST SCORE</span>
+            <strong id="menu-best-score">0</strong>
+          </div>
+          <div class="menu-top-actions">
+            <button class="menu-icon-chip" id="menu-audio-button" aria-label="Toggle audio">
+              <span class="menu-chip-icon audio-glyph"></span>
+              <span id="menu-sound-state">ON</span>
+            </button>
+            <button class="menu-icon-chip" id="menu-settings-shortcut" aria-label="Open settings">
+              <span class="menu-chip-icon cog-glyph"></span>
+              <span>SET</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-center">
+          <div class="menu-title-mark"></div>
+          <div class="menu-title-overline">PREMIUM ARCADE SPACE SHOOTER</div>
+          <div class="menu-title">SPACE</div>
+          <div class="menu-title">DRIFTER</div>
+          <div class="menu-tagline">DRIFT. SURVIVE. DOMINATE.</div>
+
+          <div class="menu-actions">
+            <button class="menu-action primary" id="start-button">
+              <span class="menu-action-icon play-icon"></span>
+              <span>START GAME</span>
+            </button>
+          </div>
+
+          <div class="menu-secondary-actions">
+            <button class="menu-secondary-button" id="menu-settings-button">
+              <span>SETTINGS</span>
+            </button>
+            <button class="menu-secondary-button" id="menu-controls-button">
+              <span>CONTROLS</span>
+            </button>
+            <button class="menu-secondary-button" id="menu-credits-button">
+              <span>CREDITS</span>
+            </button>
+          </div>
+
+          <div class="menu-controls-hint">WASD OR ARROWS TO DRIFT / SPACE TO FIRE / TOUCH READY</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="pause-overlay">
+      <div class="menu-card compact">
+        <p class="eyebrow">SYSTEM PAUSED</p>
+        <h2>Run Suspended</h2>
+        <button class="primary-button" id="resume-button">Resume</button>
+        <button class="secondary-button" id="pause-settings-button">Settings</button>
+        <button class="secondary-button" id="pause-restart-button">Restart Run</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="gameover-overlay">
+      <div class="menu-card">
+        <p class="eyebrow" id="gameover-eyebrow">MISSION ENDED</p>
+        <h2 id="gameover-title">Game Over</h2>
+        <div class="rank-banner">
+          <span class="rank-label">PILOT RANK</span>
+          <strong id="final-rank">C</strong>
+        </div>
+        <div class="end-stats">
+          <div>
+            <span>Score</span>
+            <strong id="final-score">0</strong>
+          </div>
+          <div>
+            <span>Best</span>
+            <strong id="final-best-score">0</strong>
+          </div>
+          <div>
+            <span>Time</span>
+            <strong id="final-time">0:00</strong>
+          </div>
+        </div>
+        <div class="run-summary-grid">
+          <div>
+            <span>Level</span>
+            <strong id="final-level">1 / 15</strong>
+          </div>
+          <div>
+            <span>Accuracy</span>
+            <strong id="final-accuracy">0%</strong>
+          </div>
+          <div>
+            <span>Pickups</span>
+            <strong id="final-pickups">0</strong>
+          </div>
+          <div>
+            <span>Near Misses</span>
+            <strong id="final-dodges">0</strong>
+          </div>
+          <div>
+            <span>Best Combo</span>
+            <strong id="final-combo">x0</strong>
+          </div>
+          <div>
+            <span>Shots Landed</span>
+            <strong id="final-hits">0</strong>
+          </div>
+        </div>
+        <button class="primary-button" id="restart-button">Restart Run</button>
+        <button class="secondary-button" id="return-menu-button">Main Menu</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="settings-overlay">
+      <div class="menu-card compact">
+        <p class="eyebrow">SETTINGS</p>
+        <h2>Flight Options</h2>
+        <div class="settings-list">
+          <button class="toggle-row" id="sound-toggle">
+            <span>Sound</span>
+            <strong id="sound-toggle-label">On</strong>
+          </button>
+          <button class="toggle-row" id="quality-toggle">
+            <span>Effects Boost</span>
+            <strong id="quality-toggle-label">High</strong>
+          </button>
+        </div>
+        <button class="secondary-button" id="close-settings-button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

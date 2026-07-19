@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isParticipant(data) {
+      return signedIn() && (
+        request.auth.uid == data.hostId ||
+        request.auth.uid == data.guestId
+      );
+    }
+
+    match /rooms/{roomId} {
+      allow create: if signedIn() &&
+        request.resource.data.hostId == request.auth.uid &&
+        request.resource.data.guestId == null;
+
+      allow read: if isParticipant(resource.data);
+      allow update: if isParticipant(resource.data);
+      allow delete: if signedIn() && request.auth.uid == resource.data.hostId;
+    }
+  }
+}

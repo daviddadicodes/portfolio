@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background" aria-hidden="true">
+    <div class="bg-orb bg-orb-a"></div>
+    <div class="bg-orb bg-orb-b"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-streak bg-streak-a"></div>
+    <div class="bg-streak bg-streak-b"></div>
+    <div class="bg-streak bg-streak-c"></div>
+    <div class="bg-streak bg-streak-d"></div>
+    <div class="bg-particles"></div>
+    <div class="bg-particles bg-particles-secondary"></div>
+    <div class="bg-center-glow"></div>
+    <div class="bg-board-shadow"></div>
+    <div class="bg-board-silhouette"></div>
+    <div class="bg-floating-disc"></div>
+    <div class="bg-shimmer"></div>
+  </div>
+
+  <div class="app-shell">
+    <section id="menuScreen" class="menu-screen" aria-labelledby="menuTitle">
+      <button id="muteButton" class="hidden" type="button" aria-pressed="false" aria-label="Mute sounds">
+        <span id="muteLabel">Sound On</span>
+      </button>
+
+      <div class="menu-reference-layout">
+        <header class="menu-reference-header">
+          <div class="menu-reference-brand">
+            <div class="menu-logo-tile" aria-hidden="true">
+              <span class="logo-hole blue"></span>
+              <span class="logo-hole yellow"></span>
+              <span class="logo-hole blue"></span>
+              <span class="logo-hole yellow"></span>
+              <span class="logo-hole blue"></span>
+              <span class="logo-hole yellow"></span>
+            </div>
+            <div>
+              <p class="menu-kicker">Arcade Strategy Board Game</p>
+              <h1 id="menuTitle" class="menu-reference-title">Connect <span>4</span></h1>
+              <p class="menu-reference-subtitle">Drop. Connect. <span>Win.</span></p>
+              <p class="menu-reference-caption">Choose your match. Ready when you are.</p>
+            </div>
+          </div>
+        </header>
+
+        <div class="menu-reference-panels">
+          <section class="menu-reference-panel main-menu-panel">
+            <div class="menu-section-heading">
+              <span>Main Menu</span>
+            </div>
+
+            <div class="menu-reference-stack">
+              <button id="startButton" class="menu-reference-button play-button" type="button">
+                <span class="menu-button-icon play-circle" aria-hidden="true"></span>
+                <span class="menu-button-copy">
+                  <span class="menu-button-title">Start Game</span>
+                  <span class="menu-button-meta">Jump straight into your selected match</span>
+                </span>
+                <span class="menu-button-badge">Primary</span>
+              </button>
+
+              <button id="modeAiButton" class="menu-reference-button active" type="button" aria-pressed="false">
+                <span class="menu-button-icon ai-bot-icon" aria-hidden="true"></span>
+                <span class="menu-button-copy">
+                  <span class="menu-button-title">Player vs AI</span>
+                  <span class="menu-button-meta">Solo play with adaptive difficulty</span>
+                </span>
+              </button>
+
+              <button id="modeOnlineButton" class="menu-reference-button" type="button" aria-pressed="false">
+                <span class="menu-button-icon online-icon" aria-hidden="true"></span>
+                <span class="menu-button-copy">
+                  <span class="menu-button-title">Online Match</span>
+                  <span class="menu-button-meta">Create a room code and challenge a friend</span>
+                </span>
+              </button>
+            </div>
+
+            <div class="menu-section-heading difficulty-heading">
+              <span>AI Difficulty</span>
+            </div>
+
+            <div class="difficulty-reference-grid" aria-label="AI difficulty">
+              <button id="difficultyEasyButton" class="difficulty-reference-button" type="button" aria-pressed="false">
+                <span class="difficulty-bars small" aria-hidden="true"></span>
+                <span>Easy AI</span>
+              </button>
+              <button id="difficultyMediumButton" class="difficulty-reference-button active" type="button" aria-pressed="true">
+                <span class="difficulty-bars medium" aria-hidden="true"></span>
+                <span>Medium AI</span>
+              </button>
+              <button id="difficultyHardButton" class="difficulty-reference-button" type="button" aria-pressed="false">
+                <span class="difficulty-bars large" aria-hidden="true"></span>
+                <span>Hard AI</span>
+              </button>
+            </div>
+
+            <p id="difficultyDescription" class="menu-support-text">Medium AI blocks obvious wins, takes winning moves, and favors strong central play.</p>
+
+            <div id="onlineRoomPanel" class="online-room-panel hidden" aria-live="polite">
+              <div class="menu-section-heading online-heading">
+                <span>Online Room</span>
+              </div>
+              <p id="onlineRoomStatus" class="menu-support-text">Create a room or paste a friend code, then press Start Game.</p>
+              <div class="online-room-grid">
+                <button id="createRoomButton" class="menu-reference-mini-button" type="button">Create Room</button>
+                <button id="copyRoomButton" class="menu-reference-mini-button" type="button" disabled>Copy Code</button>
+              </div>
+              <label class="online-label" for="joinCodeInput">Friend Room Code</label>
+              <input id="joinCodeInput" class="online-input" type="text" maxlength="8" placeholder="Enter code">
+              <div id="roomCodeDisplay" class="room-code-display">No room yet</div>
+              <div id="roomCodeMeta" class="room-code-meta">Create a room and send the code to your friend.</div>
+            </div>
+
+            <div class="menu-reference-footer">
+              <button id="howToPlayButton" class="menu-reference-mini-button" type="button">
+                <span class="mini-icon book-icon" aria-hidden="true"></span>
+                <span class="menu-mini-copy">
+                  <span>How to Play</span>
+                  <small>Learn the rules and rhythm</small>
+                </span>
+              </button>
+              <button id="settingsButton" class="menu-reference-mini-button" type="button">
+                <span class="mini-icon gear-icon" aria-hidden="true"></span>
+                <span class="menu-mini-copy">
+                  <span>Settings</span>
+                  <small>Tune sound and controls</small>
+                </span>
+              </button>
+            </div>
+          </section>
+
+          <aside class="menu-reference-panel session-panel">
+            <div class="menu-section-heading">
+              <span>Session Setup</span>
+            </div>
+
+            <div class="session-copy">
+              <h2>Set the board, then launch.</h2>
+              <p>Choose the match type, lock in the feel, and launch into a smooth Connect 4 board built for desktop and mobile.</p>
+            </div>
+
+            <div class="session-card session-card-mode session-card-emphasis">
+              <span class="session-icon person-icon" aria-hidden="true"></span>
+              <div class="session-text">
+                <small>Mode</small>
+                <strong id="menuModeValue">Online Match</strong>
+              </div>
+            </div>
+
+            <div class="session-card session-card-difficulty">
+              <span class="session-icon chart-icon" aria-hidden="true"></span>
+              <div class="session-text">
+                <small>Difficulty</small>
+                <strong id="menuDifficultyValue">Medium AI</strong>
+              </div>
+            </div>
+
+            <div class="session-card session-card-controls">
+              <span class="session-icon pointer-icon" aria-hidden="true"></span>
+              <div class="session-text">
+                <small>Controls</small>
+                <strong>click or tap a column, or press keys 1-7.</strong>
+              </div>
+            </div>
+
+            <div class="session-card session-card-goal">
+              <span class="session-icon star-icon" aria-hidden="true"></span>
+              <div class="session-text">
+                <small>Goal</small>
+                <strong>connect four discs first.</strong>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="game-screen hidden" aria-labelledby="gameTitle">
+      <header class="game-header">
+        <div class="game-brand">
+          <div class="brand-mark compact" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <h2 id="gameTitle">CONNECT 4</h2>
+        </div>
+
+        <div class="game-actions">
+          <button id="gameMuteButton" class="icon-button" type="button" aria-label="Toggle sound">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <button id="gameSettingsButton" class="icon-button" type="button" aria-label="Open settings">
+            <span aria-hidden="true">⚙</span>
+          </button>
+          <button id="restartButton" class="restart-button" type="button">Restart Game</button>
+        </div>
+      </header>
+
+      <div id="gameLayoutShell" class="game-layout-shell">
+      <main id="gameLayout" class="game-layout">
+          <aside class="side-column left-column">
+            <article class="player-card player-card-yellow active-player" id="yellowPlayerCard">
+              <div class="player-badge">👑</div>
+              <div id="yellowStreakBadge" class="streak-badge hidden" aria-hidden="true">
+                <span id="yellowStreakValue">2</span>
+                <small>WIN STREAK</small>
+              </div>
+              <div class="avatar yellow-avatar"></div>
+              <h3 id="yellowPlayerName">PLAYER 1</h3>
+              <p id="yellowPlayerMeta"><span class="dot yellow"></span> Yellow</p>
+              <div class="score-box">
+                <strong id="yellowScore">0</strong>
+                <span>SCORE</span>
+              </div>
+            </article>
+
+            <div class="player-divider"></div>
+
+            <article class="player-card player-card-red" id="redPlayerCard">
+              <div id="redStreakBadge" class="streak-badge red hidden" aria-hidden="true">
+                <span id="redStreakValue">2</span>
+                <small>WIN STREAK</small>
+              </div>
+              <div class="avatar red-avatar"></div>
+              <h3 id="redPlayerName">PLAYER 2</h3>
+              <p id="redPlayerMeta"><span class="dot red"></span> Red</p>
+              <div class="score-box">
+                <strong id="redScore">0</strong>
+                <span>SCORE</span>
+              </div>
+            </article>
+          </aside>
+
+          <section class="center-column">
+            <div id="columnMarkers" class="column-markers" aria-hidden="true"></div>
+            <div class="board-frame">
+              <div id="columnButtons" class="column-buttons" aria-label="Column controls"></div>
+              <div id="board" class="board" role="grid" aria-label="Connect 4 board"></div>
+              <div id="blockPopup" class="block-popup" aria-hidden="true">Blocked!</div>
+              <div id="hypePopup" class="hype-popup" aria-hidden="true"></div>
+              <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+            </div>
+
+            <div class="tip-bar">
+              <div class="status-line">
+                <strong>STATUS</strong>
+                <span id="statusText">Yellow to move.</span>
+              </div>
+              <span id="tipText">Control the center columns to create more winning opportunities.</span>
+            </div>
+          </section>
+
+          <aside class="side-column right-column">
+            <article class="info-card turn-card">
+              <p class="info-label">Current Turn</p>
+              <div class="turn-row">
+                <span id="turnDot" class="turn-chip yellow"></span>
+                <div>
+                  <h3 id="turnPlayerText">PLAYER 1</h3>
+                  <p id="turnColorText">Yellow</p>
+                </div>
+              </div>
+            </article>
+
+            <article id="onlineSessionCard" class="info-card online-session-card hidden">
+              <p class="info-label">Online Match</p>
+              <div class="stat-row">
+                <span>Connection</span>
+                <strong id="onlineConnectionValue">Connected</strong>
+              </div>
+              <div class="stat-row">
+                <span>Role</span>
+                <strong id="onlineRoleValue">You: Yellow</strong>
+              </div>
+              <div class="stat-row">
+                <span>Rounds Won</span>
+                <strong id="onlineRoundsValue">0 - 0</strong>
+              </div>
+              <div class="stat-row">
+                <span>Streak</span>
+                <strong id="onlineSessionStreakValue">Even</strong>
+              </div>
+              <div class="stat-row">
+                <span>Last Winner</span>
+                <strong id="onlineLastWinnerValue">None</strong>
+              </div>
+            </article>
+
+            <div id="onlineReactionBar" class="online-reaction-bar hidden" aria-label="Send a quick reaction">
+              <button class="reaction-button" data-reaction="Nice move" type="button">Nice move</button>
+              <button class="reaction-button" data-reaction="Close one" type="button">Close one</button>
+              <button class="reaction-button" data-reaction="Good block" type="button">Good block</button>
+            </div>
+
+            <article class="info-card">
+              <p class="info-label">Game Info</p>
+              <div class="stat-row">
+                <span>Time Elapsed</span>
+                <strong id="timeElapsed">00:00</strong>
+              </div>
+              <div class="stat-row">
+                <span>Moves Made</span>
+                <strong id="movesMade">0</strong>
+              </div>
+            </article>
+
+            <article class="info-card">
+              <p class="info-label">Match Goal</p>
+              <p>Connect 4 to win!</p>
+              <div class="goal-dots" aria-hidden="true">
+                <span class="goal-dot filled"></span>
+                <span class="goal-dot filled"></span>
+                <span class="goal-dot filled"></span>
+                <span class="goal-dot"></span>
+              </div>
+            </article>
+
+            <article class="info-card promo-card">
+              <div>
+                <p class="info-label">Scoreboard</p>
+                <h3 id="drawScore">0</h3>
+                <p>Draw games recorded</p>
+              </div>
+            </article>
+
+            <div class="right-actions">
+              <button id="backToMenuButton" class="utility-button" type="button">Back to Menu</button>
+              <button id="resetScoreButton" class="utility-button secondary" type="button">Reset Score</button>
+            </div>
+          </aside>
+      </main>
+      </div>
+    </section>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop hidden">
+    <section id="howToPlayPanel" class="modal-panel hidden" role="dialog" aria-modal="true" aria-labelledby="howToPlayTitle">
+      <div class="modal-head">
+        <div>
+          <p class="panel-kicker">Guide</p>
+          <h2 id="howToPlayTitle">How to Play</h2>
+        </div>
+        <button class="icon-button" data-close-panel="true" type="button" aria-label="Close panel">✕</button>
+      </div>
+      <div class="modal-copy">
+        <p>Take turns dropping pieces into the seven columns. Every piece falls to the lowest available space.</p>
+        <p>Connect four of your own discs horizontally, vertically, or diagonally to win.</p>
+        <p>If the board fills completely without a winner, the round ends in a draw.</p>
+      </div>
+    </section>
+
+    <section id="settingsPanel" class="modal-panel hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <div>
+          <p class="panel-kicker">Settings</p>
+          <h2 id="settingsTitle">Game Settings</h2>
+        </div>
+        <button class="icon-button" data-close-panel="true" type="button" aria-label="Close panel">✕</button>
+      </div>
+      <div class="modal-copy">
+        <div class="settings-row">
+          <span>Sound Effects</span>
+          <button id="settingsMuteButton" class="utility-button" type="button">Toggle Sound</button>
+        </div>
+        <div class="settings-row stack">
+          <label for="sfxVolumeInput">SFX Volume</label>
+          <input id="sfxVolumeInput" class="range-input" type="range" min="0" max="100" step="1" value="85">
+        </div>
+        <div class="settings-row stack">
+          <label for="musicVolumeInput">Music Volume</label>
+          <input id="musicVolumeInput" class="range-input" type="range" min="0" max="100" step="1" value="0">
+        </div>
+        <div class="settings-row">
+          <span>Reset Saved Scoreboard</span>
+          <button id="menuResetScoreButton" class="utility-button secondary" type="button">Reset Score</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultPanel" class="modal-panel hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+      <div class="modal-head">
+        <div>
+          <p class="panel-kicker">Round Complete</p>
+          <h2 id="resultTitle">Player 1 Wins!</h2>
+        </div>
+        <div id="resultBadge" class="result-badge blue" aria-hidden="true">
+          <span id="resultBadgeIcon" class="result-badge-icon">★</span>
+        </div>
+      </div>
+      <div class="modal-copy">
+        <p id="resultMessage">Start another round to keep playing.</p>
+      </div>
+      <div class="modal-actions">
+        <button id="playAgainButton" class="menu-button primary" type="button">Play Again</button>
+        <button id="resultBackToMenuButton" class="menu-button secondary" type="button">Back to Menu</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

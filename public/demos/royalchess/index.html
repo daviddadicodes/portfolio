@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Chess</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="menu-screen" id="menuScreen" aria-hidden="false">
+      <div class="menu-card">
+        <div class="menu-topbar">
+          <div class="menu-brand">
+            <span class="menu-brand-mark" aria-hidden="true">&#9819;</span>
+            <p class="menu-kicker">Royal Chess</p>
+          </div>
+        </div>
+
+        <div class="menu-main">
+          <div class="menu-copy-block">
+            <h1 class="menu-title">Classic strategy. Premium opening.</h1>
+            <p class="menu-copy">
+              Set your match, choose your side, and start from a polished main menu.
+            </p>
+          </div>
+
+          <div class="menu-hero-piece" aria-hidden="true">&#9818;</div>
+
+          <div class="menu-grid">
+            <section class="menu-panel">
+              <div class="menu-panel-heading">
+                <h2>Game Mode</h2>
+              </div>
+              <div class="menu-actions">
+                <button class="drawer-action menu-choice" type="button" id="menuModeComputer">
+                  <span>Vs Computer</span>
+                </button>
+                <button class="drawer-action menu-choice" type="button" id="menuModeLocal">
+                  <span>Local Two Player</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9819;</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="menu-panel">
+              <div class="menu-panel-heading">
+                <h2>Side</h2>
+              </div>
+              <div class="menu-actions">
+                <button class="drawer-action menu-choice" type="button" id="menuColorWhite">
+                  <span>Play White</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9817;</span>
+                </button>
+                <button class="drawer-action menu-choice" type="button" id="menuColorBlack">
+                  <span>Play Black</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9823;</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="menu-panel">
+              <div class="menu-panel-heading">
+                <h2>Difficulty</h2>
+              </div>
+              <div class="menu-actions">
+                <button class="drawer-action menu-choice" type="button" id="menuDifficultyQuick">
+                  <span>Quick</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9201;</span>
+                </button>
+                <button class="drawer-action menu-choice" type="button" id="menuDifficultyBalanced">
+                  <span>Balanced</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9878;</span>
+                </button>
+                <button class="drawer-action menu-choice" type="button" id="menuDifficultySharp">
+                  <span>Sharp</span>
+                  <span class="menu-choice-icon" aria-hidden="true">&#9876;</span>
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <div class="menu-footer">
+            <div class="menu-summary-bar">
+              <span class="menu-summary-icon" aria-hidden="true">&#128737;</span>
+              <p class="menu-summary" id="menuSummary">Vs Computer • You are White • Balanced</p>
+            </div>
+            <div class="menu-actions menu-footer-actions">
+              <button class="drawer-action menu-footer-button" type="button" id="resumeGameButton">
+                <span class="menu-choice-icon" aria-hidden="true">&#8634;</span>
+                <span>Resume Match</span>
+              </button>
+              <button class="drawer-action primary menu-footer-button" type="button" id="startGameButton">
+                <span class="menu-choice-icon" aria-hidden="true">&#9819;</span>
+                <span>Start Match</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <div class="app-frame">
+        <header class="topbar">
+          <div class="topbar-side">
+            <button class="icon-button menu-corner-button" type="button" id="menuButton" aria-label="Open main menu">
+              <span class="icon-lines"></span>
+              <span class="menu-button-text">Main Menu</span>
+            </button>
+            <div class="crest-badge" aria-hidden="true">&#9819;</div>
+          </div>
+
+          <div class="brand-lockup">
+            <div class="brand-mark" aria-hidden="true">&#9813;</div>
+            <div>
+              <p class="brand-title">Royal Chess</p>
+              <p class="brand-subtitle">Classic strategy. Modern design.</p>
+            </div>
+          </div>
+
+          <div class="topbar-side topbar-right">
+            <button class="utility-icon" type="button" id="themeButton" aria-label="Toggle display mode">&#9728;</button>
+            <button class="utility-icon" type="button" id="perspectiveButton" aria-label="Flip board perspective">&#9641;</button>
+            <button class="utility-icon" type="button" id="soundButton" aria-label="Toggle sound">&#9835;</button>
+            <button class="utility-icon" type="button" id="settingsButton" aria-label="Open settings">&#9881;</button>
+            <button class="profile-pill" type="button" id="profileButton" aria-label="Open player panel">
+              <div class="profile-avatar">P</div>
+              <div class="profile-copy">
+                <strong>Player One</strong>
+                <span>&#9819; 1250</span>
+              </div>
+            </button>
+          </div>
+        </header>
+
+        <section class="control-drawer hidden" id="controlDrawer" aria-hidden="true">
+          <div class="drawer-header">
+            <p class="drawer-title" id="drawerTitle">Quick Menu</p>
+            <button class="drawer-close" type="button" id="drawerCloseButton" aria-label="Close panel">&times;</button>
+          </div>
+          <div class="drawer-content" id="drawerContent"></div>
+        </section>
+
+        <main class="layout">
+          <section class="board-stage">
+            <div class="scene-piece" aria-hidden="true">&#9819;</div>
+            <div class="board-panel">
+              <div class="board-wrapper">
+                <div class="board" id="board" aria-label="Chess board"></div>
+                <div class="board-particles" id="boardParticles" aria-hidden="true"></div>
+                <div class="board-effects" id="boardEffects" aria-hidden="true"></div>
+                <div class="promotion-modal hidden" id="promotionModal" aria-hidden="true">
+                  <div class="promotion-card">
+                    <p class="promotion-title">Choose Promotion</p>
+                    <p class="promotion-copy">Select the piece that will lead the endgame.</p>
+                    <div class="promotion-options" id="promotionOptions"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="side-panel">
+            <section class="section-card compact-card">
+              <div class="card-icon">&#9876;</div>
+              <div>
+                <div class="section-heading">
+                  <h2>Game Status</h2>
+                </div>
+                <p class="status-line status-live" id="statusText">Game in Progress</p>
+                <p class="status-note" id="gameMetaText">Single player • White vs Black</p>
+              </div>
+            </section>
+
+            <section class="section-card turn-card">
+              <div class="turn-badge" id="turnBadge" aria-hidden="true">&#9817;</div>
+              <div class="turn-copy">
+                <div class="section-heading">
+                  <h2>Current Turn</h2>
+                </div>
+                <p class="turn-title" id="turnIndicator">White to Move</p>
+                <p class="status-note turn-note" id="checkText">Make your move.</p>
+              </div>
+              <div class="timer-readout">
+                <span>&#9684;</span>
+                <strong id="sessionTimer">00:00</strong>
+              </div>
+            </section>
+
+            <section class="section-card capture-card">
+              <div class="section-heading">
+                <h2>Captured Pieces</h2>
+              </div>
+              <div class="capture-grid">
+                <div class="capture-group">
+                  <div class="capture-stack">
+                    <div class="captured-row" id="capturedByWhite"></div>
+                    <p class="capture-edge" id="capturedByWhiteEdge">Material even</p>
+                  </div>
+                  <div class="capture-count" id="capturedByWhiteCount">0</div>
+                </div>
+                <div class="capture-group">
+                  <div class="capture-stack">
+                    <div class="captured-row" id="capturedByBlack"></div>
+                    <p class="capture-edge" id="capturedByBlackEdge">Material even</p>
+                  </div>
+                  <div class="capture-count" id="capturedByBlackCount">0</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="controls-row">
+              <button class="action-button secondary icon-action" id="undoButton">
+                <span class="button-icon">&#8630;</span>
+                <span>Undo</span>
+              </button>
+              <button class="action-button secondary icon-action" id="restartButton">
+                <span class="button-icon">&#10227;</span>
+                <span>Restart Match</span>
+              </button>
+              <button class="action-button primary icon-action" id="resultRestartButtonInline">
+                <span class="button-icon">&#65291;</span>
+                <span>Start New Match</span>
+              </button>
+            </section>
+          </aside>
+        </main>
+      </div>
+    </div>
+
+    <div class="result-banner hidden" id="resultBanner" aria-hidden="true">
+      <div class="result-card">
+        <p class="result-kicker">Match Complete</p>
+        <h3 id="resultTitle">Checkmate</h3>
+        <p id="resultMessage">White wins.</p>
+        <button class="action-button primary" id="resultRestartButton">Start New Match</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
