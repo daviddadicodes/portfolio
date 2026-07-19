@@ -11,7 +11,7 @@ export const projects: Project[] = [
     description:
       "This project combines gameplay logic, browser audio, persistence, and real-time syncing in one web game.",
     repo: "https://github.com/daviddadicodes/connect4",
-    demo: "/demos/connect4/index.html",
+    demo: "https://connect4web.vercel.app/",
     stack: ["HTML5", "CSS3", "JavaScript", "Firebase Auth", "Cloud Firestore", "Vercel-ready static hosting"],
     role: "Game developer and frontend engineer",
     status: "Live demo available",
