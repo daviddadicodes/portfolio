@@ -47,9 +47,6 @@ export function ContactSection() {
 
           <div className="flex flex-wrap gap-3 pt-3">
             <ActionLink href={siteLinks.email}>Email Me</ActionLink>
-            <ActionLink href={siteLinks.resume} variant="secondary">
-              Download Resume
-            </ActionLink>
           </div>
         </div>
       </ScrollReveal>

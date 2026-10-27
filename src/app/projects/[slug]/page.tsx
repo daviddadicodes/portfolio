@@ -9,7 +9,7 @@ import { ProjectDetailSection } from "@/components/project-detail-section";
 import { ScreenshotGallery } from "@/components/screenshot-gallery";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { projects, siteLinks } from "@/data/projects";
+import { projects } from "@/data/projects";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -71,9 +71,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <ActionLink href={project.demo}>Live Demo</ActionLink>
                 <ActionLink href={project.repo} variant="secondary">
                   GitHub Repo
-                </ActionLink>
-                <ActionLink href={siteLinks.resume} variant="ghost">
-                  Resume
                 </ActionLink>
               </div>
 

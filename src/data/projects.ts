@@ -5,6 +5,7 @@ export const projects: Project[] = [
     slug: "connect4",
     title: "Connect 4",
     year: "2026",
+    category: "Game",
     tagline: "A browser Connect 4 game with AI opponents and online room matches.",
     summary:
       "A browser Connect 4 game with local play, three AI modes, online rooms, and score tracking.",
@@ -74,6 +75,7 @@ export const projects: Project[] = [
     slug: "royalchess",
     title: "Royal Chess",
     year: "2026",
+    category: "Game",
     tagline: "A browser chess game with match setup, computer play, and a polished HUD.",
     summary:
       "A chess game with match setup, computer play, local matches, promotion, and undo.",
@@ -143,6 +145,7 @@ export const projects: Project[] = [
     slug: "neonmazerunner",
     title: "Neon Maze Runner",
     year: "2026",
+    category: "Game",
     tagline: "A Three.js maze game with enemy behaviors, power-ups, and mobile-friendly controls.",
     summary:
       "A 3D arcade maze game built with TypeScript and Three.js, with touch controls and level scaling.",
@@ -212,6 +215,7 @@ export const projects: Project[] = [
     slug: "space-drifter",
     title: "Space Drifter",
     year: "2026",
+    category: "Game",
     tagline: "A browser arcade shooter with Three.js, wave progression, and a detailed HUD.",
     summary:
       "A space shooter with wave progression, special abilities, and a cockpit-style HUD.",
@@ -281,6 +285,7 @@ export const projects: Project[] = [
     slug: "snakegame",
     title: "Neon Snake Reactor",
     year: "2026",
+    category: "Game",
     tagline: "A mobile-friendly Snake game with clean UI, persistent scoring, and responsive controls.",
     summary:
       "A modern Snake game with keyboard and swipe input, pause states, and simple static deployment.",
@@ -353,6 +358,5 @@ export const featuredProjects = projects.filter((project) => project.featured);
 export const siteLinks = {
   github: "https://github.com/daviddadicodes",
   linkedin: "https://ca.linkedin.com/in/david-dadi-4bba85255?trk=people-guest_people_search-card",
-  email: "mailto:daviddadicodes@gmail.com",
-  resume: "/David-Dadi-Resume-2026.pdf"
+  email: "mailto:daviddadicodes@gmail.com"
 };

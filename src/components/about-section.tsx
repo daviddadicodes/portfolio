@@ -3,7 +3,8 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 
 const bullets = [
   "Self-taught developer from Ontario who likes shipping complete, playable projects.",
-  "Built from HTML and CSS into TypeScript, browser games, interactive UI, and AI-assisted development."
+  "Built from HTML and CSS into TypeScript, browser games, interactive UI, and AI-assisted development.",
+  "I'm continuously strengthening my development skills by building, testing, reviewing feedback, and learning from each shipped project."
 ];
 
 export function AboutSection() {

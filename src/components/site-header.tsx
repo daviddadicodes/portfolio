@@ -1,11 +1,8 @@
 import Link from "next/link";
 
-import { ActionLink } from "@/components/action-link";
-import { siteLinks } from "@/data/projects";
-
 const navItems = [
   { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
+  { href: "#skills", label: "Technologies" },
   { href: "#projects", label: "Projects" },
   { href: "#contact", label: "Contact" }
 ];
@@ -32,11 +29,6 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <ActionLink href={siteLinks.resume} variant="secondary">
-            Download Resume
-          </ActionLink>
-        </div>
       </div>
     </header>
   );

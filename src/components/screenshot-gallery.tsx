@@ -12,7 +12,7 @@ export function ScreenshotGallery({ screenshots, title = "Screenshots" }: Screen
     <section className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 shadow-panel lg:p-8">
       <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-white">{title}</h2>
       <p className="mt-4 max-w-4xl leading-7 text-slate-300">
-        Captured from the running build to show the real interface and moment-to-moment presentation of the project.
+        Selected visuals from the shipped experience to show the interface, visual direction, and presentation quality of the project.
       </p>
       <div className="mt-8 grid gap-6">
         {screenshots.map((shot) => (

@@ -13,6 +13,7 @@ export type Project = {
   slug: string;
   title: string;
   year: string;
+  category: "Game";
   tagline: string;
   summary: string;
   description: string;

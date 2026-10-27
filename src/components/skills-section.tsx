@@ -3,20 +3,20 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 
 const skillGroups = [
   {
-    title: "Frontend Engineering",
-    items: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Responsive UI", "Accessibility", "SEO"]
+    title: "Portfolio Stack",
+    items: ["Next.js", "React", "TypeScript", "Tailwind CSS"]
   },
   {
-    title: "Game and Interaction Development",
-    items: ["Three.js", "Canvas 2D", "Gameplay loops", "HUD systems", "Stateful UI", "Animation polish"]
+    title: "Game Project Technologies",
+    items: ["HTML", "CSS", "JavaScript", "Three.js", "Canvas 2D", "Firebase"]
   },
   {
-    title: "AI-Assisted Workflow",
-    items: ["Prompt-guided iteration", "Refactor support", "Edge-case exploration", "Testing checklists", "Architecture ideation"]
+    title: "How I Work With AI",
+    items: ["UI concepts with ChatGPT", "Build direction in Codex", "Gameplay iteration", "Debugging and testing", "Code review", "Deployment"]
   },
   {
-    title: "Tooling and Delivery",
-    items: ["Vercel deployment", "Vite", "Firebase", "GitHub", "Static hosting", "Build validation"]
+    title: "Product and Delivery Practices",
+    items: ["Responsive UI", "Accessibility", "SEO", "Gameplay loops", "HUD systems", "Animation polish", "GitHub", "Vercel deployment"]
   }
 ];
 
@@ -25,9 +25,9 @@ export function SkillsSection() {
     <section id="skills" className="px-6 py-16 lg:px-8 lg:py-24">
       <ScrollReveal className="mx-auto max-w-7xl space-y-10 rounded-[2rem] border border-white/8 bg-slate-950/44 p-8 lg:p-10">
         <SectionHeading
-          eyebrow="Skills"
-          title="AI-ready frontend and product-building skills used across my 2026 projects."
-          description="These are the tools and workflows I rely on most when building interactive web products and browser-based experiences."
+          eyebrow="Project Technologies"
+          title="Technologies used across my 2026 projects."
+          description="These technologies and practices appear in the portfolio and browser games I built with AI assistance."
         />
 
         <div className="grid gap-6 md:grid-cols-2">

@@ -45,9 +45,6 @@ export function Hero() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <ActionLink href="#projects">View Work</ActionLink>
-            <ActionLink href={siteLinks.resume} variant="secondary">
-              Resume
-            </ActionLink>
             <ActionLink href={siteLinks.github} variant="ghost">
               GitHub
             </ActionLink>
